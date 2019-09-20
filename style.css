@@ -1,0 +1,46 @@
+.container {
+	margin: 0 auto;
+	width: 1170px;
+    min-height: 100%;
+}
+.hide {
+	opacity: 0;
+}
+
+.start, .start__button, .start__rules, .begin, .counter {
+	text-align: center;
+}
+.board {
+	border: 2px solid black;
+	width: 500px;
+	height: 500px;
+	margin: 0 auto;
+	display: flex;
+	flex-wrap: wrap;
+	border-radius: 3%;
+    padding: 3px;
+}
+.cards {
+	width: 20%;
+	height: 20%;
+	border: 1px solid black;
+	text-align: center;
+	position: relative;
+	border-radius: 10%;
+	cursor: pointer;
+}
+.cards-elem {
+	display: block;	
+	width: 50%;
+	height: 50%;
+	margin: auto;
+	font-weight: bold;
+	position: absolute;
+	top: 0; left: 0; bottom: 0; right: 0;
+}
+button {
+	margin-top: 15px;
+}
+.active {
+	background-color: red;
+}
