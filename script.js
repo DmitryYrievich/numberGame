@@ -1,19 +1,19 @@
 
-let startBoard = document.getElementById('starts');
+const startBoard = document.getElementById('starts');
 
-let startButton = startBoard.querySelector('button');
+const startButton = startBoard.querySelector('button');
 
-let countTime = document.getElementById('count');
+const countTime = document.getElementById('count');
 
-let beginButton = document.getElementById('again');
+const beginButton = document.getElementById('again');
 
-let board = document.getElementById('mainBoard');
+const board = document.getElementById('mainBoard');
 
-let cards = document.querySelectorAll('.cards');
+const cards = document.querySelectorAll('.cards');
 
-let activeCards = document.getElementsByClassName('active');
+const activeCards = document.getElementsByClassName('active');
 
-  window.onload = window.onresize =(event) => {
+  window.onload =(event) => {
     startButton.addEventListener('click', swap);
     startButton.addEventListener('click', shuffle);
   }
@@ -22,14 +22,20 @@ let activeCards = document.getElementsByClassName('active');
 
   function gameAgain() {
     shuffle();
-    t = 75;
+    countTime.innerHTML = 75;
+    cards.forEach(card => card.addEventListener('click', color));
+    swap();
+    clearTimeout(stopTimer);
+    endGame();
   }
+
   function swap() {
     startBoard.remove();
-    countTime.classList.remove('hide');
+    document.getElementById('count').classList.remove('hide');
     board.classList.remove('hide');
     beginButton.classList.remove('hide');
-    timer ();
+    timer();
+    endGame();
   }
 
   function randomInterval(min, max) {
@@ -42,9 +48,9 @@ let activeCards = document.getElementsByClassName('active');
 
   function shuffle() {
     cards.forEach(card => {
-      let ramdomPos = randomInterval(1, 25);
+      const ramdomPos = randomInterval(1, 25);
       card.style.order = ramdomPos;
-      let randomSize = randomInterval(20, 45);
+      const randomSize = randomInterval(20, 45);
       card.style.fontSize = randomSize + 'px';
       card.style.color = getRandomColor();
       card.classList.remove('active');
@@ -56,37 +62,32 @@ let activeCards = document.getElementsByClassName('active');
   function color() {
     if (this.id == activeCards.length + 1) {
       this.classList.add('active');
-    } else if (cards.length === activeCards.length) {
-      timer(false);
-      countTime.innerHTML = 'Вы выиграли';
-    }
-  }  
+    } 
+  };
 
-  // function endGame () {
-  //   if (cards.length === activeCards.length) {
-  //     alert('Красаучік');
-  //   } else if (cards.length > activeCards.length) {
-  //     setTimeout(function() {
-  //     alert('Лох');
-  //   }, 30000);
-  //   }
-  // }   
 
-  let t = 75;
-  function timer (){
-    if (t >= 0 ) {
-      countTime.innerHTML = 'Времени осталось:' + t;
-      t--;
-      setTimeout('timer()', 1000);
-    } else {
-      countTime.innerHTML = 'Вы проиграли';
-    }
-  }
+  function endGame () {
+    return setInterval (function() {
+      if (activeCards.length === cards.length) {
+        countTime.innerHTML = 'Вы выиграли';
+      } 
+    }, 1000)    
+  };
 
-  // function endGame () {
-  //   if (cards.length === activeCards.length) {
-  //     function timer () {
-  //      return;
-  //     }
-  //   }
-  // }
+  let stopTimer;
+
+  function timer() {
+    return stopTimer = setInterval (function() {
+      if (countTime.innerHTML > 0) {
+        countTime.innerHTML--;
+      } else if (countTime.innerHTML === 'Вы выиграли') {
+        countTime.innerHTML = 'Вы выиграли';
+      } 
+      else {
+        countTime.innerHTML = 'Вы проиграли';
+        cards.forEach(card => card.removeEventListener('click', color, false));
+      }
+    }, 1000)
+    clearInterval();
+  };
+

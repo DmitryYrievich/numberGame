@@ -4,7 +4,7 @@
     min-height: 100%;
 }
 .hide {
-	opacity: 0;
+	display: none !important;
 }
 
 .start, .start__button, .start__rules, .begin, .counter {
